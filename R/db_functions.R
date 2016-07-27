@@ -21,6 +21,18 @@ query_owenslake <- function(query){
   dat
 }
 
+query_owens_aws <- function(query){
+  usr <- readLines("~/config/credentials/airsci_db_cred.txt")[3]
+  psswrd <- readLines("~/config/credentials/airsci_db_cred.txt")[4]
+  hst <- "airdbo1.cwxikzzkese5.us-west-2.rds.amazonaws.com"
+  prt <- "5432"
+  con <- RPostgreSQL::dbConnect("PostgreSQL", host=hst, port=prt, 
+                                dbname="owenslake", user=usr, password=psswrd)
+  dat <- RPostgreSQL::dbGetQuery(con, query)
+  RPostgreSQL::dbDisconnect(con)
+  dat
+}
+
 writetable_owenslake <- function(df1, schema, tab){
   usr <- readLines("~/config/credentials/airsci_db_cred.txt")[1]
   psswrd <- readLines("~/config/credentials/airsci_db_cred.txt")[2]
